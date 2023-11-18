@@ -56,7 +56,6 @@ class _RecordWidgetState extends State<RecordWidget> {
     try {
       if (await _audioRecorder.hasPermission()) {
         await _audioRecorder.start(const RecordConfig(), path: path);
-
         bool isRecording = await _audioRecorder.isRecording();
         setState(() {
           _isRecording = isRecording;
@@ -72,7 +71,9 @@ class _RecordWidgetState extends State<RecordWidget> {
   Future<void> _stop() async {
     // This is the path of the recorded file.
     path = await _audioRecorder.stop();
-    setState(() => _isRecording = false);
+    setState(() {
+      _isRecording = false;
+    });
   }
 
   Widget _buildRecorder() {
@@ -96,7 +97,7 @@ class _RecordWidgetState extends State<RecordWidget> {
             ),
             child: Icon(
               Icons.mic_off,
-              color: FlutterFlowTheme.of(context).tertiary,
+              color: FlutterFlowTheme.of(context).primaryBackground,
               size: 30,
             ),
           ),
@@ -110,15 +111,19 @@ class _RecordWidgetState extends State<RecordWidget> {
             _start();
           },
           child: Container(
-            width: 45,
-            height: 45,
+            width: 50,
+            height: 50,
             decoration: BoxDecoration(
-              color: Color(0x4DD9376E),
+              color: Colors.black,
               shape: BoxShape.circle,
+              border: Border.all(
+                color: FlutterFlowTheme.of(context).primaryBackground,
+                width: 4,
+              ),
             ),
             child: Icon(
               Icons.mic_sharp,
-              color: FlutterFlowTheme.of(context).tertiaryColor,
+              color: FlutterFlowTheme.of(context).primaryBackground,
               size: 30,
             ),
           ),
