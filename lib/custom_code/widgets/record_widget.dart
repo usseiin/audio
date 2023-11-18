@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import '../../flutter_flow/permissions_util.dart';
+
 import "dart:io";
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,9 +59,15 @@ class _RecordWidgetState extends State<RecordWidget> {
       if (await _audioRecorder.hasPermission()) {
         await _audioRecorder.start(const RecordConfig(), path: path);
         bool isRecording = await _audioRecorder.isRecording();
+        print("start recording");
         setState(() {
           _isRecording = isRecording;
         });
+      } else {
+        print("asked permission");
+        if (!(await Permission.microphone.isGranted)) {
+          await requestPermission(microphonePermission);
+        }
       }
     } catch (e) {
       if (kDebugMode) {
@@ -71,6 +79,7 @@ class _RecordWidgetState extends State<RecordWidget> {
   Future<void> _stop() async {
     // This is the path of the recorded file.
     path = await _audioRecorder.stop();
+    print("recording stop");
     setState(() {
       _isRecording = false;
     });
@@ -78,54 +87,48 @@ class _RecordWidgetState extends State<RecordWidget> {
 
   Widget _buildRecorder() {
     if (_isRecording) {
-      return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-        child: InkWell(
-          onTap: () async {
-            _stop();
-          },
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: FlutterFlowTheme.of(context).primaryBackground,
-                width: 4,
-              ),
-            ),
-            child: Icon(
-              Icons.mic_off,
+      return InkWell(
+        onTap: () async {
+          _stop();
+        },
+        child: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.circle,
+            border: Border.all(
               color: FlutterFlowTheme.of(context).primaryBackground,
-              size: 30,
+              width: 4,
             ),
+          ),
+          child: Icon(
+            Icons.mic_off,
+            color: FlutterFlowTheme.of(context).primaryBackground,
+            size: 30,
           ),
         ),
       );
     } else {
-      return Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-        child: InkWell(
-          onTap: () async {
-            _start();
-          },
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: FlutterFlowTheme.of(context).primaryBackground,
-                width: 4,
-              ),
-            ),
-            child: Icon(
-              Icons.mic_sharp,
+      return InkWell(
+        onTap: () async {
+          _start();
+        },
+        child: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.circle,
+            border: Border.all(
               color: FlutterFlowTheme.of(context).primaryBackground,
-              size: 30,
+              width: 4,
             ),
+          ),
+          child: Icon(
+            Icons.mic_sharp,
+            color: FlutterFlowTheme.of(context).primaryBackground,
+            size: 30,
           ),
         ),
       );

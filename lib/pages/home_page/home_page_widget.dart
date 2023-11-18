@@ -126,11 +126,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 50.0,
-                      height: 50.0,
+                      width: 60.0,
+                      height: 60.0,
                       child: custom_widgets.RecordWidget(
-                        width: 50.0,
-                        height: 50.0,
+                        width: 60.0,
+                        height: 60.0,
                       ),
                     ),
                   ],
