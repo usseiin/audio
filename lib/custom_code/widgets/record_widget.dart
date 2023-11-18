@@ -95,7 +95,7 @@ class _RecordWidgetState extends State<RecordWidget> {
               ),
             ),
             child: Icon(
-              Icons.stop_rounded,
+              Icons.mic_off,
               color: FlutterFlowTheme.of(context).tertiary,
               size: 30,
             ),
@@ -117,7 +117,7 @@ class _RecordWidgetState extends State<RecordWidget> {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              Icons.mic_none,
+              Icons.mic_sharp,
               color: FlutterFlowTheme.of(context).tertiaryColor,
               size: 30,
             ),

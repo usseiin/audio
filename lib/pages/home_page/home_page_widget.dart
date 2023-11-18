@@ -1,8 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/upload_data.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
-import '/flutter_flow/permissions_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'home_page_model.dart';
@@ -114,138 +112,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+              const Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Align(
-                      alignment: const AlignmentDirectional(0.00, 0.00),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 25.0, 0.0),
-                        child: Container(
-                          width: 50.0,
-                          height: 50.0,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              width: 4.0,
-                            ),
-                          ),
-                          child: Align(
-                            alignment: const AlignmentDirectional(0.00, 0.00),
-                            child: Stack(
-                              children: [
-                                if (!_model.isRecording)
-                                  InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      setState(() {
-                                        _model.isRecording = true;
-                                      });
-                                      await requestPermission(
-                                          microphonePermission);
-                                      _model.audioRecorder ??= Record();
-                                      if (await _model.audioRecorder!
-                                          .hasPermission()) {
-                                        await _model.audioRecorder!.start();
-                                      } else {
-                                        showSnackbar(
-                                          context,
-                                          'You have not provided permission to record audio.',
-                                        );
-                                      }
-                                    },
-                                    child: const Icon(
-                                      Icons.mic_sharp,
-                                      color: Colors.white,
-                                      size: 35.0,
-                                    ),
-                                  ),
-                                if (_model.isRecording)
-                                  InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      setState(() {
-                                        _model.isRecording = false;
-                                      });
-                                      _model.audio =
-                                          await _model.audioRecorder?.stop();
-                                      final selectedFiles = await selectFiles(
-                                        allowedExtensions: ['mp3'],
-                                        multiFile: false,
-                                      );
-                                      if (selectedFiles != null) {
-                                        setState(() =>
-                                            _model.isDataUploading = true);
-                                        var selectedUploadedFiles =
-                                            <FFUploadedFile>[];
-
-                                        try {
-                                          showUploadMessage(
-                                            context,
-                                            'Uploading file...',
-                                            showLoading: true,
-                                          );
-                                          selectedUploadedFiles = selectedFiles
-                                              .map((m) => FFUploadedFile(
-                                                    name: m.storagePath
-                                                        .split('/')
-                                                        .last,
-                                                    bytes: m.bytes,
-                                                  ))
-                                              .toList();
-                                        } finally {
-                                          ScaffoldMessenger.of(context)
-                                              .hideCurrentSnackBar();
-                                          _model.isDataUploading = false;
-                                        }
-                                        if (selectedUploadedFiles.length ==
-                                            selectedFiles.length) {
-                                          setState(() {
-                                            _model.uploadedLocalFile =
-                                                selectedUploadedFiles.first;
-                                          });
-                                          showUploadMessage(
-                                            context,
-                                            'Success!',
-                                          );
-                                        } else {
-                                          setState(() {});
-                                          showUploadMessage(
-                                            context,
-                                            'Failed to upload file',
-                                          );
-                                          return;
-                                        }
-                                      }
-
-                                      setState(() {});
-                                    },
-                                    child: const Icon(
-                                      Icons.mic_off,
-                                      color: Colors.white,
-                                      size: 35.0,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
+                    SizedBox(
                       width: 50.0,
                       height: 50.0,
                       child: custom_widgets.RecordWidget(
