@@ -1,6 +1,8 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'reco_model.dart';
 export 'reco_model.dart';
@@ -21,6 +23,14 @@ class _RecoWidgetState extends State<RecoWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RecoModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.audios = await actions.getAudioPath();
+      setState(() {
+        _model.audioPath = _model.audios!.toList().cast<String>();
+      });
+    });
   }
 
   @override
@@ -63,11 +73,22 @@ class _RecoWidgetState extends State<RecoWidget> {
           centerTitle: false,
           elevation: 2.0,
         ),
-        body: const SafeArea(
+        body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [],
+          child: Builder(
+            builder: (context) {
+              final audioPaths = _model.audioPath.toList();
+              return Column(
+                mainAxisSize: MainAxisSize.max,
+                children: List.generate(audioPaths.length, (audioPathsIndex) {
+                  final audioPathsItem = audioPaths[audioPathsIndex];
+                  return Text(
+                    audioPathsIndex.toString(),
+                    style: FlutterFlowTheme.of(context).bodyMedium,
+                  );
+                }),
+              );
+            },
           ),
         ),
       ),

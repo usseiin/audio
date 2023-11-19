@@ -2,11 +2,12 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom widgets
+import '/custom_code/actions/index.dart'; // Imports custom actions
 import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import '../../flutter_flow/permissions_util.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import "dart:io";
 import 'dart:async';
@@ -54,7 +55,7 @@ class _RecordWidgetState extends State<RecordWidget> {
 
   Future<void> _start() async {
     final path =
-        "${appDocumentsDir!.path}/${DateTime.now().millisecondsSinceEpoch}.m4a";
+        "${appDocumentsDir!.path}/audio/${DateTime.now().millisecondsSinceEpoch}.m4a";
     try {
       if (await _audioRecorder.hasPermission()) {
         await _audioRecorder.start(const RecordConfig(), path: path);
@@ -64,10 +65,7 @@ class _RecordWidgetState extends State<RecordWidget> {
           _isRecording = isRecording;
         });
       } else {
-        print("asked permission");
-        if (!(await Permission.microphone.isGranted)) {
-          await requestPermission(microphonePermission);
-        }
+        await Permission.microphone.request();
       }
     } catch (e) {
       if (kDebugMode) {
