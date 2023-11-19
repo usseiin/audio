@@ -82,9 +82,13 @@ class _RecoWidgetState extends State<RecoWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: List.generate(audioPaths.length, (audioPathsIndex) {
                   final audioPathsItem = audioPaths[audioPathsIndex];
-                  return Text(
-                    audioPathsIndex.toString(),
-                    style: FlutterFlowTheme.of(context).bodyMedium,
+                  return Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 2.0, 16.0, 2.0),
+                    child: Text(
+                      audioPathsIndex.toString(),
+                      style: FlutterFlowTheme.of(context).bodyMedium,
+                    ),
                   );
                 }),
               );

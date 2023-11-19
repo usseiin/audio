@@ -71,12 +71,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     color: FlutterFlowTheme.of(context).primaryBackground,
                     shape: BoxShape.circle,
                   ),
-                  child: const Align(
-                    alignment: AlignmentDirectional(0.00, 0.00),
-                    child: Icon(
-                      Icons.arrow_back_ios_sharp,
-                      color: Colors.black,
-                      size: 30.0,
+                  child: Align(
+                    alignment: const AlignmentDirectional(0.00, 0.00),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pushNamed('reco');
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios_sharp,
+                        color: Colors.black,
+                        size: 30.0,
+                      ),
                     ),
                   ),
                 ),
