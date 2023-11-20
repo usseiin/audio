@@ -100,34 +100,35 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 50.0),
-                child: Container(
-                  width: 250.0,
-                  height: 250.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xFFFF0000),
-                      width: 6.0,
+              if (_model.isRecording)
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 50.0),
+                  child: Container(
+                    width: 250.0,
+                    height: 250.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFFFF0000),
+                        width: 6.0,
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 10.0, 10.0),
-                    child: ClipOval(
-                      child: Container(
-                        width: 50.0,
-                        height: 50.0,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFFF0000),
-                          shape: BoxShape.circle,
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          10.0, 10.0, 10.0, 10.0),
+                      child: ClipOval(
+                        child: Container(
+                          width: 50.0,
+                          height: 50.0,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFFF0000),
+                            shape: BoxShape.circle,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
               const Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
                 child: Row(
@@ -135,11 +136,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 60.0,
-                      height: 60.0,
+                      width: 330.0,
+                      height: 450.0,
                       child: custom_widgets.RecordWidget(
-                        width: 60.0,
-                        height: 60.0,
+                        width: 330.0,
+                        height: 450.0,
                       ),
                     ),
                   ],

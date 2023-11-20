@@ -45,7 +45,7 @@ class _RecordWidgetState extends State<RecordWidget> {
   }
 
   void setPath() async {
-    appDocumentsDir = await getApplicationDocumentsDirectory();
+    appDocumentsDir = await getApplicationSupportDirectory();
   }
 
   void dispose() {
@@ -54,13 +54,28 @@ class _RecordWidgetState extends State<RecordWidget> {
   }
 
   Future<void> _start() async {
+    final pathDir = Directory("${appDocumentsDir!.path}/audio");
+    if (!(await pathDir.exists())) {
+      await pathDir.create(recursive: true);
+    }
     final path =
-        "${appDocumentsDir!.path}/audio/${DateTime.now().millisecondsSinceEpoch}.m4a";
+        await "${pathDir.path}/${DateTime.now().millisecondsSinceEpoch}.mp3";
     try {
       if (await _audioRecorder.hasPermission()) {
         await _audioRecorder.start(const RecordConfig(), path: path);
         bool isRecording = await _audioRecorder.isRecording();
-        print("start recording");
+        if (!isRecording) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "Error recording",
+              ),
+              duration: Duration(milliseconds: 3000),
+              backgroundColor: Colors.black,
+            ),
+          );
+          return;
+        }
         setState(() {
           _isRecording = isRecording;
         });
@@ -69,7 +84,7 @@ class _RecordWidgetState extends State<RecordWidget> {
       }
     } catch (e) {
       if (kDebugMode) {
-        print(e);
+        print("error: $e");
       }
     }
   }
@@ -77,7 +92,7 @@ class _RecordWidgetState extends State<RecordWidget> {
   Future<void> _stop() async {
     // This is the path of the recorded file.
     path = await _audioRecorder.stop();
-    print("recording stop");
+    await File(path!).create(recursive: true);
     setState(() {
       _isRecording = false;
     });
@@ -136,10 +151,54 @@ class _RecordWidgetState extends State<RecordWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [_buildRecorder()],
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
+            child: Container(
+              width: 250,
+              height: 250,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Color(0xFFFF0000),
+                  width: 6,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                child: ClipOval(
+                  child: GestureDetector(
+                    onLongPress: () async {
+                      _start();
+                    },
+                    onLongPressUp: () async {
+                      _stop();
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: _isRecording
+                            ? Color(0xFFFF75533)
+                            : Color(0xFFFF0000),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildRecorder(),
+            ],
+          ),
+        ],
       ),
     );
   }
