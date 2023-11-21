@@ -44,7 +44,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'reco',
           path: '/reco',
-          builder: (context, params) => const RecoWidget(),
+          builder: (context, params) => RecoWidget(
+            audioPaths:
+                params.getParam<String>('audioPaths', ParamType.String, true),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

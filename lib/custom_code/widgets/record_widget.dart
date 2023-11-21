@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom widgets
 import '/custom_code/actions/index.dart'; // Imports custom actions
+import '/flutter_flow/custom_functions.dart'; // Imports custom functions
 import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
@@ -34,13 +35,14 @@ class RecordWidget extends StatefulWidget {
 class _RecordWidgetState extends State<RecordWidget> {
   bool _isRecording = false;
   String? path = '';
-  final _audioRecorder = AudioRecorder();
+  late AudioRecorder _audioRecorder;
   Directory? appDocumentsDir;
 
   @override
   void initState() {
     super.initState();
     setPath();
+    _audioRecorder = AudioRecorder();
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -59,7 +61,7 @@ class _RecordWidgetState extends State<RecordWidget> {
       await pathDir.create(recursive: true);
     }
     final path =
-        await "${pathDir.path}/${DateTime.now().millisecondsSinceEpoch}.mp3";
+        await "${pathDir.path}/audio_${DateTime.now().millisecondsSinceEpoch}.mp3";
     try {
       if (await _audioRecorder.hasPermission()) {
         await _audioRecorder.start(const RecordConfig(), path: path);
@@ -68,7 +70,7 @@ class _RecordWidgetState extends State<RecordWidget> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                "Error recording",
+                "error recording",
               ),
               duration: Duration(milliseconds: 3000),
               backgroundColor: Colors.black,
@@ -92,7 +94,10 @@ class _RecordWidgetState extends State<RecordWidget> {
   Future<void> _stop() async {
     // This is the path of the recorded file.
     path = await _audioRecorder.stop();
-    await File(path!).create(recursive: true);
+    final audio = await File(path!).create(recursive: true);
+    FFAppState().update(() {
+      FFAppState().currentPath = path!;
+    });
     setState(() {
       _isRecording = false;
     });

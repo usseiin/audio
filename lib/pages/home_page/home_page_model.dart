@@ -10,6 +10,8 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Custom Action - getAudioPath] action in Icon widget.
+  List<String>? audios;
 
   /// Initialization and disposal methods.
 

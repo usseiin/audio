@@ -1,14 +1,21 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'reco_model.dart';
 export 'reco_model.dart';
 
 class RecoWidget extends StatefulWidget {
-  const RecoWidget({super.key});
+  const RecoWidget({
+    super.key,
+    required this.audioPaths,
+  });
+
+  final List<String>? audioPaths;
 
   @override
   _RecoWidgetState createState() => _RecoWidgetState();
@@ -51,6 +58,8 @@ class _RecoWidgetState extends State<RecoWidget> {
       );
     }
 
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -77,16 +86,16 @@ class _RecoWidgetState extends State<RecoWidget> {
           top: true,
           child: Builder(
             builder: (context) {
-              final audioPaths = _model.audioPath.toList();
+              final audioPaths = widget.audioPaths!.toList();
               return Column(
                 mainAxisSize: MainAxisSize.max,
                 children: List.generate(audioPaths.length, (audioPathsIndex) {
                   final audioPathsItem = audioPaths[audioPathsIndex];
                   return Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 2.0, 16.0, 2.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
                     child: Text(
-                      audioPathsIndex.toString(),
+                      functions
+                          .nameFromPath(widget.audioPaths![audioPathsIndex]),
                       style: FlutterFlowTheme.of(context).bodyMedium,
                     ),
                   );

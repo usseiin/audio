@@ -1,10 +1,12 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/permissions_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -49,6 +51,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       );
     }
 
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -79,7 +83,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
-                        context.pushNamed('reco');
+                        _model.audios = await actions.getAudioPath();
+
+                        context.pushNamed(
+                          'reco',
+                          queryParameters: {
+                            'audioPaths': serializeParam(
+                              _model.audios,
+                              ParamType.String,
+                              true,
+                            ),
+                          }.withoutNulls,
+                        );
+
+                        setState(() {});
                       },
                       child: const Icon(
                         Icons.arrow_back_ios_sharp,
@@ -136,11 +153,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 330.0,
-                      height: 450.0,
+                      width: 300.0,
+                      height: 340.0,
                       child: custom_widgets.RecordWidget(
-                        width: 330.0,
-                        height: 450.0,
+                        width: 300.0,
+                        height: 340.0,
                       ),
                     ),
                   ],
