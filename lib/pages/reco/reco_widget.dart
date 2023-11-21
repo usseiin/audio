@@ -1,9 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'reco_model.dart';
@@ -30,14 +28,6 @@ class _RecoWidgetState extends State<RecoWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RecoModel());
-
-    // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.audios = await actions.getAudioPath();
-      setState(() {
-        _model.audioPath = _model.audios!.toList().cast<String>();
-      });
-    });
   }
 
   @override
@@ -84,24 +74,28 @@ class _RecoWidgetState extends State<RecoWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: Builder(
-            builder: (context) {
-              final audioPaths = widget.audioPaths!.toList();
-              return Column(
-                mainAxisSize: MainAxisSize.max,
-                children: List.generate(audioPaths.length, (audioPathsIndex) {
-                  final audioPathsItem = audioPaths[audioPathsIndex];
-                  return Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
-                    child: Text(
-                      functions
-                          .nameFromPath(widget.audioPaths![audioPathsIndex]),
-                      style: FlutterFlowTheme.of(context).bodyMedium,
-                    ),
-                  );
-                }),
-              );
-            },
+          child: Visibility(
+            visible: widget.audioPaths!.isNotEmpty,
+            child: Builder(
+              builder: (context) {
+                final audioPaths = widget.audioPaths!.toList();
+                return Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: List.generate(audioPaths.length, (audioPathsIndex) {
+                    final audioPathsItem = audioPaths[audioPathsIndex];
+                    return Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
+                      child: Text(
+                        functions
+                            .nameFromPath(widget.audioPaths![audioPathsIndex]),
+                        style: FlutterFlowTheme.of(context).bodyMedium,
+                      ),
+                    );
+                  }),
+                );
+              },
+            ),
           ),
         ),
       ),
