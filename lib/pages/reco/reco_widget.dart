@@ -74,28 +74,51 @@ class _RecoWidgetState extends State<RecoWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: Visibility(
-            visible: widget.audioPaths!.isNotEmpty,
-            child: Builder(
-              builder: (context) {
-                final audioPaths = widget.audioPaths!.toList();
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: List.generate(audioPaths.length, (audioPathsIndex) {
-                    final audioPathsItem = audioPaths[audioPathsIndex];
-                    return Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
-                      child: Text(
-                        functions
-                            .nameFromPath(widget.audioPaths![audioPathsIndex]),
-                        style: FlutterFlowTheme.of(context).bodyMedium,
-                      ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              if (widget.audioPaths!.isNotEmpty)
+                Builder(
+                  builder: (context) {
+                    final audioPaths = widget.audioPaths!.toList();
+                    return Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children:
+                          List.generate(audioPaths.length, (audioPathsIndex) {
+                        final audioPathsItem = audioPaths[audioPathsIndex];
+                        return Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 4.0),
+                          child: Text(
+                            functions.nameFromPath(
+                                widget.audioPaths![audioPathsIndex]),
+                            style: FlutterFlowTheme.of(context).bodyMedium,
+                          ),
+                        );
+                      }),
                     );
-                  }),
-                );
-              },
-            ),
+                  },
+                ),
+              if (widget.audioPaths.isEmpty)
+                Align(
+                  alignment: const AlignmentDirectional(0.00, -1.00),
+                  child: Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Record empty',
+                          textAlign: TextAlign.center,
+                          style: FlutterFlowTheme.of(context).bodyLarge,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
           ),
         ),
       ),
