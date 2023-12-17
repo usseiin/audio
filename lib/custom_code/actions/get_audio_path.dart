@@ -20,7 +20,7 @@ Future<List<String>> getAudioPath() async {
   List<String> files = [];
   try {
     // Get the application documents directory
-    Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+    Directory appDocumentsDirectory = await getApplicationSupportDirectory();
 
     // Specify the folder path you want to display files from
     String folderPath = "${appDocumentsDirectory.path}/audio";

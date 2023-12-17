@@ -67,7 +67,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Align(
-                alignment: const AlignmentDirectional(0.00, 0.00),
+                alignment: const AlignmentDirectional(0.0, 0.0),
                 child: Container(
                   width: 40.0,
                   height: 40.0,
@@ -76,7 +76,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     shape: BoxShape.circle,
                   ),
                   child: Align(
-                    alignment: const AlignmentDirectional(0.00, 0.00),
+                    alignment: const AlignmentDirectional(0.0, 0.0),
                     child: InkWell(
                       splashColor: Colors.transparent,
                       focusColor: Colors.transparent,
@@ -131,8 +131,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(
-                          10.0, 10.0, 10.0, 10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: ClipOval(
                         child: Container(
                           width: 50.0,

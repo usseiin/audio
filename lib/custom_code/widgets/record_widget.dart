@@ -95,6 +95,7 @@ class _RecordWidgetState extends State<RecordWidget> {
     // This is the path of the recorded file.
     path = await _audioRecorder.stop();
     final audio = await File(path!).create(recursive: true);
+    await transcribeAudio(path!);
     FFAppState().update(() {
       FFAppState().currentPath = path!;
     });

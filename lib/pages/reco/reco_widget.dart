@@ -10,7 +10,7 @@ export 'reco_model.dart';
 class RecoWidget extends StatefulWidget {
   const RecoWidget({
     super.key,
-    required this.audioPaths,
+    this.audioPaths,
   });
 
   final List<String>? audioPaths;
@@ -80,7 +80,7 @@ class _RecoWidgetState extends State<RecoWidget> {
               if (widget.audioPaths!.isNotEmpty)
                 Builder(
                   builder: (context) {
-                    final audioPaths = widget.audioPaths!.toList();
+                    final audioPaths = widget.audioPaths?.toList() ?? [];
                     return Column(
                       mainAxisSize: MainAxisSize.max,
                       children:
@@ -101,7 +101,7 @@ class _RecoWidgetState extends State<RecoWidget> {
                 ),
               if (widget.audioPaths.isEmpty)
                 Align(
-                  alignment: const AlignmentDirectional(0.00, -1.00),
+                  alignment: const AlignmentDirectional(0.0, -1.0),
                   child: Padding(
                     padding:
                         const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
